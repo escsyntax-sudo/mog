@@ -1,0 +1,99 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Task Board",
+    "version": "1.0.0"
+  },
+  "basePath": "/api",
+  "produces": ["application/json"],
+  "paths": {
+    "/tasks": {
+      "get": {
+        "operationId": "listTasks",
+        "summary": "List tasks",
+        "parameters": [
+          { "name": "state", "in": "query", "type": "string", "required": false }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tasks",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Task" }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createTask",
+        "summary": "Create a task",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/NewTask" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created task",
+            "schema": { "$ref": "#/definitions/Task" }
+          }
+        }
+      }
+    },
+    "/tasks/{id}": {
+      "get": {
+        "operationId": "getTask",
+        "summary": "Fetch a task",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "200": {
+            "description": "One task",
+            "schema": { "$ref": "#/definitions/Task" }
+          },
+          "404": {
+            "description": "Missing task",
+            "schema": { "$ref": "#/definitions/Problem" }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Task": {
+      "type": "object",
+      "required": ["id", "title", "state"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "state": { "type": "string", "enum": ["open", "doing", "done"] },
+        "assignee": { "type": "string" },
+        "dueDate": { "type": "string", "format": "date" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "estimateHours": { "type": "number", "minimum": 0.5, "maximum": 40 }
+      }
+    },
+    "NewTask": {
+      "type": "object",
+      "required": ["title"],
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "assignee": { "type": "string" }
+      }
+    },
+    "Problem": {
+      "type": "object",
+      "required": ["code", "message"],
+      "properties": {
+        "code": { "type": "integer" },
+        "message": { "type": "string" }
+      }
+    }
+  }
+}

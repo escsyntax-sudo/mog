@@ -1,0 +1,24 @@
+[
+  {
+    "event": "invoice.paid",
+    "invoiceId": "inv_9f2a41",
+    "customer": {
+      "name": "Nora Fischer",
+      "email": "nora@example.com"
+    },
+    "amount": 149.5,
+    "currency": "USD",
+    "paidAt": "2026-03-14T09:12:44Z"
+  },
+  {
+    "event": "invoice.paid",
+    "invoiceId": "inv_7c1b02",
+    "customer": {
+      "name": "Amir Haddad",
+      "email": "amir@example.com"
+    },
+    "amount": 42,
+    "currency": "EUR",
+    "paidAt": "2026-03-15T17:40:03Z"
+  }
+]

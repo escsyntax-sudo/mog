@@ -1,0 +1,71 @@
+openapi: 3.0.3
+info:
+  title: Notes API
+  version: 2.1.0
+servers:
+  - url: http://localhost:8000
+paths:
+  /notes:
+    get:
+      operationId: listNotes
+      summary: List notes
+      responses:
+        "200":
+          description: Notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Note"
+    post:
+      operationId: createNote
+      summary: Create a note
+      responses:
+        "201":
+          description: Created note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+  /notes/{noteId}:
+    get:
+      operationId: getNote
+      summary: Fetch one note
+      parameters:
+        - name: noteId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: One note
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Note"
+components:
+  schemas:
+    Note:
+      type: object
+      required: [id, title, body, createdAt]
+      properties:
+        id:
+          type: integer
+          minimum: 1
+        title:
+          type: string
+          maxLength: 80
+        body:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        pinned:
+          type: boolean
+        labels:
+          type: array
+          items:
+            type: string
+          maxItems: 5
